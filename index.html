@@ -27,8 +27,8 @@ input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focu
 #header-inner{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
 #logo-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
 #logo{font-size:22px;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1a1a2e,#262640);display:flex;align-items:center;justify-content:center}
-#nav-tabs{display:flex;max-width:720px;margin:0 auto;padding:0 16px}
-.nav-btn{flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--txD);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+#nav-tabs{display:flex;max-width:720px;margin:0 auto;padding:0 16px;overflow-x:auto}
+.nav-btn{flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--txD);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
 .nav-btn.active{color:var(--acc);border-bottom-color:var(--acc)}
 .nav-btn:hover{color:var(--acc)}
 #content{flex:1;padding:18px 14px;max-width:720px;margin:0 auto;width:100%}
@@ -91,5 +91,6 @@ input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focu
 </div>
 <script src="api.js"></script>
 <script src="app.js"></script>
+<script src="patches.js"></script>
 </body>
 </html>
