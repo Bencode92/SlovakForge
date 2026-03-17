@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-03-17",
+  "categories": {
+    "verb": { "label": "Verbes", "icon": "⚡", "color": "#E85D3A" },
+    "noun": { "label": "Noms", "icon": "📦", "color": "#2D7DD2" },
+    "conjunction": { "label": "Conjonctions", "icon": "🔗", "color": "#9C27B0" },
+    "adjective": { "label": "Adjectifs", "icon": "🎨", "color": "#4CAF50" },
+    "expression": { "label": "Expressions", "icon": "💬", "color": "#FF9800" }
+  },
+  "words": {
+    "verb": [
+      { "lemma": "byť", "fr": "être", "conjugation": "ja som, ty si, on/ona je, my sme, vy ste, oni sú", "example": "Som šťastný. = Je suis heureux.", "tip": "Le verbe #1 ! Irrégulier.", "box": 0 },
+      { "lemma": "mať", "fr": "avoir", "conjugation": "ja mám, ty máš, on/ona má, my máme, vy máte, oni majú", "example": "Mám hlad. = J'ai faim.", "tip": "mať rád/rada = aimer", "box": 0 },
+      { "lemma": "chcieť", "fr": "vouloir", "conjugation": "ja chcem, ty chceš, on/ona chce, my chceme, vy chcete, oni chcú", "example": "Chcem ísť von. = Je veux sortir.", "tip": "Modal + infinitif", "box": 0 },
+      { "lemma": "ísť", "fr": "aller", "conjugation": "ja idem, ty ideš, on/ona ide, my ideme, vy idete, oni idú", "example": "Kam ideš? = Où vas-tu ?", "tip": "Futur irrégulier: pôjdem", "box": 0 },
+      { "lemma": "robiť", "fr": "faire", "conjugation": "ja robím, ty robíš, on/ona robí, my robíme, vy robíte, oni robia", "example": "Čo robíš? = Tu fais quoi ?", "tip": "La question #1 du quotidien", "box": 0 },
+      { "lemma": "hovoriť", "fr": "parler", "conjugation": "ja hovorím, ty hovoríš, on/ona hovorí, my hovoríme, vy hovoríte, oni hovoria", "example": "Hovoríš po slovensky? = Tu parles slovaque ?", "tip": "hovoriť po + langue", "box": 0 },
+      { "lemma": "rozumieť", "fr": "comprendre", "conjugation": "ja rozumiem, ty rozumieš, on/ona rozumie, my rozumieme, vy rozumiete, oni rozumejú", "example": "Nerozumiem. = Je ne comprends pas.", "tip": "Phrase de survie #1", "box": 0 },
+      { "lemma": "milovať", "fr": "aimer (fort)", "conjugation": "ja milujem, ty miluješ, on/ona miluje, my milujeme, vy milujete, oni milujú", "example": "Milujem ťa. = Je t'aime.", "tip": "Pour ta copine !", "box": 0 },
+      { "lemma": "jesť", "fr": "manger", "conjugation": "ja jem, ty ješ, on/ona je, my jeme, vy jete, oni jedia", "example": "Chceš jesť? = Tu veux manger ?", "tip": "3e pers. 'je' = mange ET est !", "box": 0 },
+      { "lemma": "piť", "fr": "boire", "conjugation": "ja pijem, ty piješ, on/ona pije, my pijeme, vy pijete, oni pijú", "example": "Čo piješ? = Tu bois quoi ?", "tip": "piť kávu = boire un café", "box": 0 },
+      { "lemma": "vedieť", "fr": "savoir", "conjugation": "ja viem, ty vieš, on/ona vie, my vieme, vy viete, oni vedia", "example": "Neviem. = Je ne sais pas.", "tip": "Très courant au quotidien", "box": 0 },
+      { "lemma": "môcť", "fr": "pouvoir", "conjugation": "ja môžem, ty môžeš, on/ona môže, my môžeme, vy môžete, oni môžu", "example": "Môžeme sa stretnúť? = On peut se voir ?", "tip": "Capacité / permission", "box": 0 }
+    ],
+    "noun": [],
+    "conjunction": [],
+    "adjective": [],
+    "expression": []
+  }
+}

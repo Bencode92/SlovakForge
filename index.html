@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SlovakForge — Apprends le slovaque</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇸🇰</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08080e;--sf:#0e0e18;--card:#10101a;--brd:#1a1a28;--acc:#E85D3A;--accG:#E85D3A22;--grn:#4CAF50;--grnD:#4CAF5022;--red:#E85D3A;--redD:#E85D3A22;--blu:#2D7DD2;--bluD:#2D7DD222;--purp:#9C27B0;--org:#FF9800;--txt:#e0e0e0;--txD:#555;--txM:#888}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focus{border-color:var(--acc)!important}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.btn{padding:8px 18px;border-radius:9px;border:none;cursor:pointer;font-weight:600;font-size:12px;font-family:inherit;transition:all .15s}.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.btn:active{transform:translateY(0)}.btn:disabled{opacity:.4;cursor:default;transform:none}
+.btn-pri{background:var(--acc);color:#fff}.btn-sec{background:var(--brd);color:var(--txM)}.btn-grn{background:var(--grn);color:#fff}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:12px}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;display:inline-block;font-weight:600}
+.tag-acc{color:var(--acc);background:var(--accG)}.tag-grn{color:var(--grn);background:var(--grnD)}
+.mono{font-family:'Space Mono',monospace}.mono-b{font-family:'Space Mono',monospace;font-weight:700;color:#fff}
+.muted{color:var(--txD);font-size:12px}
+.spinner{width:14px;height:14px;border:2px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+#header{background:var(--sf);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:100}
+#header-inner{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+#logo-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
+#logo{font-size:22px;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1a1a2e,#262640);display:flex;align-items:center;justify-content:center}
+#nav-tabs{display:flex;max-width:720px;margin:0 auto;padding:0 16px}
+.nav-btn{flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--txD);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.nav-btn.active{color:var(--acc);border-bottom-color:var(--acc)}
+.nav-btn:hover{color:var(--acc)}
+#content{flex:1;padding:18px 14px;max-width:720px;margin:0 auto;width:100%}
+#status-bar{display:flex;align-items:center;gap:8px}#status-bar.hidden{display:none}
+.sentence-row{display:flex;align-items:flex-start;gap:8px;padding:11px 12px;background:var(--card);cursor:pointer;border-left:3px solid var(--brd);transition:border-color .15s}
+.sentence-row:hover{border-left-color:var(--blu)}
+.s-num{font-family:'Space Mono',monospace;font-size:10px;color:#333;min-width:16px;padding-top:3px}
+.word-token{display:inline-block;line-height:1.7;font-size:14px;color:#ddd;cursor:pointer;border-radius:3px;padding:0 3px;transition:background .12s,color .12s}
+.word-token:hover{background:rgba(232,93,58,.2)}
+.word-token.selected{background:rgba(232,93,58,.25);color:var(--acc)}
+.fr-translation{padding:9px 12px 9px 40px;background:#0c1420;color:#8ab4f8;font-size:13px;font-style:italic;border-left:3px solid var(--blu);animation:slideUp .2s ease}
+.sel-bar{position:sticky;bottom:10px;background:rgba(24,24,40,.95);border-radius:10px;padding:10px 14px;margin-top:14px;display:flex;align-items:center;gap:10px;border:1px solid var(--brd);backdrop-filter:blur(8px)}
+.sel-tag{background:var(--accG);color:var(--acc);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer;font-family:'Space Mono',monospace}
+.qcm-opt{padding:12px 16px;margin:4px 0;border-radius:9px;border:2px solid var(--brd);cursor:pointer;font-size:13px;transition:all .15s;background:var(--card)}
+.qcm-opt:hover{border-color:#444;transform:scale(1.02)}
+.qcm-opt.correct{background:var(--grnD)!important;border-color:var(--grn)!important;color:var(--grn)}
+.qcm-opt.wrong{background:var(--redD)!important;border-color:var(--red)!important;color:var(--red)}
+.flash-card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:28px 22px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:all .3s}
+.flash-card.flipped{background:var(--accG);border-color:color-mix(in srgb,var(--acc) 30%,transparent)}
+.progress-bar{height:3px;background:var(--brd);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.streak-badge{background:linear-gradient(135deg,#FF9800,#E85D3A);color:#fff;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600}
+.box-indicator{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+#token-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:999}
+#token-modal.hidden{display:none}
+#footer{text-align:center;padding:14px;border-top:1px solid var(--brd);font-size:10px;color:#222}
+</style>
+</head>
+<body>
+<div id="token-modal" class="hidden">
+  <div class="card" style="max-width:420px;width:90%;text-align:center;padding:32px">
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:8px">🔑 Token GitHub</h3>
+    <p class="muted" style="margin-bottom:20px">Nécessaire pour sauvegarder ton vocabulaire. Session uniquement.</p>
+    <input id="modal-token" type="password" placeholder="GitHub Personal Access Token" style="width:100%;padding:12px 16px;border-radius:10px;background:var(--sf);border:1px solid var(--brd);color:var(--txt);font-size:13px;margin-bottom:12px" onkeydown="if(event.key==='Enter')confirmToken()">
+    <div style="display:flex;gap:8px">
+      <button onclick="cancelToken()" class="btn btn-sec" style="flex:1">Annuler</button>
+      <button onclick="confirmToken()" class="btn btn-pri" style="flex:1">Valider</button>
+    </div>
+  </div>
+</div>
+<div id="app" style="display:flex;flex-direction:column;min-height:100vh">
+  <header id="header">
+    <div id="header-inner">
+      <div id="logo-wrap" onclick="switchTab('read')">
+        <div id="logo">🇸🇰</div>
+        <div>
+          <h1 style="font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff">SlovakForge</h1>
+          <p id="header-stats" style="font-size:10px;color:#444">0 mots</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div id="status-bar" class="hidden"><div class="spinner"></div><span id="status-text" style="font-size:11px;color:var(--acc)"></span></div>
+        <span id="gh-tag" class="tag tag-acc" style="cursor:pointer" onclick="requireToken(()=>{})">📖 Lecture</span>
+      </div>
+    </div>
+    <nav id="nav-tabs"></nav>
+  </header>
+  <div id="content" style="flex:1"></div>
+  <div id="footer">SlovakForge — Lis · Capture · Apprends 🇸🇰</div>
+</div>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
