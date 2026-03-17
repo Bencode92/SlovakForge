@@ -1,11 +1,31 @@
-// SlovakForge App v6 — Daily QCM on home page
+// SlovakForge App v7 — Daily QCM with conjugated verb forms
 const CATS={verb:{label:'Verbes',icon:'\u26a1',color:'#E85D3A'},noun:{label:'Noms',icon:'\ud83d\udce6',color:'#2D7DD2'},conjunction:{label:'Conjonctions',icon:'\ud83d\udd17',color:'#9C27B0'},adjective:{label:'Adjectifs',icon:'\ud83c\udfa8',color:'#4CAF50'},pronoun:{label:'Pronoms',icon:'\ud83d\udc64',color:'#00BCD4'},preposition:{label:'Pr\u00e9positions',icon:'\ud83d\udccd',color:'#795548'},adverb:{label:'Adverbes',icon:'\u23f1',color:'#607D8B'},number:{label:'Nombres',icon:'\ud83d\udd22',color:'#FF5722'},expression:{label:'Expressions',icon:'\ud83d\udcac',color:'#FF9800'}};
 const THEMES=['Au restaurant','Premier rendez-vous','Chez le m\u00e9decin','Faire les courses','Au travail','Week-end en famille','Dans le bus','Vacances en Slovaquie','Cuisine slovaque','Discussion avec belle-m\u00e8re','\u00c0 la boulangerie','Sport et loisirs'];
 const ALL_TYPES=Object.keys(CATS);
 const LEITNER_DAYS=[0,1,3,7,14,30];
+const FR_PERSONS=['je','tu','il/elle','nous','vous','ils'];
 function isDue(word){const box=word.box||0;if(box>=5)return false;if(!word.lastReview)return true;const d=(Date.now()-word.lastReview)/(1000*60*60*24);return d>=LEITNER_DAYS[box]}
 function getDueWords(words){return words.filter(isDue)}
 function getAllDueCount(){return Object.values(vocab).flat().filter(isDue).length}
+
+// Parse conjugation string into [{sk:"som",person:"ja",frPerson:"je"}, ...]
+function parseConj(conj){
+  if(!conj)return[];
+  const forms=conj.split(',').map(f=>f.trim());
+  return forms.map((f,i)=>{
+    // "ja som" → person="ja", sk="som"
+    const parts=f.split(/\s+/);
+    const person=parts.length>1?parts[0]:'';
+    const sk=parts.length>1?parts.slice(1).join(' '):parts[0];
+    return{sk:sk,person:person,frPerson:FR_PERSONS[i]||'',full:f};
+  });
+}
+// Get a random conjugated form for a verb
+function randomConjForm(word){
+  const forms=parseConj(word.conjugation);
+  if(!forms.length)return null;
+  return forms[Math.floor(Math.random()*forms.length)];
+}
 
 let vocab={verb:[],noun:[],conjunction:[],adjective:[],pronoun:[],preposition:[],adverb:[],number:[],expression:[]},currentTab='read',vocabCatTab='verb';
 let readTheme='',readLevel='easy',readText=null,readRevealed=new Set(),readSelected=new Set();
@@ -36,8 +56,68 @@ async function doAddManualWord(){const input=$('manual-word-input');const word=i
 function generateDailyPool(){const due=Object.values(vocab).flat().filter(isDue).sort(()=>Math.random()-.5).slice(0,10);const all=allFlat();const poolL=new Set(due.map(w=>w.lemma||w.original));const extras=all.filter(w=>!poolL.has(w.lemma||w.original)).sort(()=>Math.random()-.5).slice(0,15-due.length);return[...due,...extras].sort(()=>Math.random()-.5)}
 function startDailyQcm(){const pool=generateDailyPool();if(pool.length<4){readError='Pas assez de mots (min 4).';render();setTimeout(()=>{readError='';render()},3000);return}dailyQcm=pool;dailyIdx=0;dailyAns=null;dailyScore={ok:0,total:0};dailyActive=true;makeDailyOpts(0);render()}
 function stopDaily(){dailyActive=false;dailyQcm=null;render()}
-function makeDailyOpts(idx){if(!dailyQcm||!dailyQcm[idx])return;const cor=dailyQcm[idx];const all=allFlat();const dir=Math.random()>0.5?'sk':'fr';let dist=all.filter(w=>(w.lemma||w.original)!==(cor.lemma||cor.original)).sort(()=>Math.random()-.5);const same=dist.filter(w=>(w.type||w._cat)===(cor.type||cor._cat));const other=dist.filter(w=>(w.type||w._cat)!==(cor.type||cor._cat));dist=[...same,...other].slice(0,3);if(dir==='sk')dailyOpts=[...dist.map(w=>w.fr),cor.fr].sort(()=>Math.random()-.5);else dailyOpts=[...dist.map(w=>w.lemma||w.original),cor.lemma||cor.original].sort(()=>Math.random()-.5);dailyQcm[idx]._dir=dir;dailyAns=null}
-function handleDailyAnswer(selected){const w=dailyQcm[dailyIdx];const dir=w._dir||'sk';const correct=dir==='sk'?w.fr:(w.lemma||w.original);const ok=selected===correct;dailyAns=selected;dailyScore.ok+=ok?1:0;dailyScore.total+=1;const cat=w._cat||w.type;if(cat&&vocab[cat]){const i=vocab[cat].findIndex(x=>(x.lemma||x.original)===(w.lemma||w.original));if(i!==-1){vocab[cat][i].box=ok?Math.min((vocab[cat][i].box||0)+1,5):Math.max((vocab[cat][i].box||0)-1,0);vocab[cat][i].lastReview=Date.now();saveVocab()}}render();setTimeout(()=>{if(dailyIdx+1<dailyQcm.length){dailyIdx++;makeDailyOpts(dailyIdx)}else{dailyActive='results'}render()},900)}
+
+function makeDailyOpts(idx){
+  if(!dailyQcm||!dailyQcm[idx])return;
+  const cor=dailyQcm[idx];const all=allFlat();
+  const dir=Math.random()>0.5?'sk':'fr';
+  const isVerb=(cor._cat==='verb'||cor.type==='verb')&&cor.conjugation;
+
+  // Pick a random conjugated form for verbs
+  let conjForm=null;
+  if(isVerb)conjForm=randomConjForm(cor);
+
+  let dist=all.filter(w=>(w.lemma||w.original)!==(cor.lemma||cor.original)).sort(()=>Math.random()-.5);
+  const same=dist.filter(w=>(w.type||w._cat)===(cor.type||cor._cat));
+  const other=dist.filter(w=>(w.type||w._cat)!==(cor.type||cor._cat));
+  dist=[...same,...other].slice(0,3);
+
+  if(dir==='sk'){
+    // SK→FR: show conjugated form, answer = frPerson + fr verb
+    if(isVerb&&conjForm){
+      // Prompt: "ja som" → answer: "je suis" ... but we don't have FR conjugation
+      // So: prompt = "ja som", answer = "être (je)" → shows infinitive + person hint
+      const corAnswer=cor.fr+' ('+conjForm.frPerson+')';
+      const distAnswers=dist.map(w=>{
+        const wIsVerb=(w._cat==='verb'||w.type==='verb')&&w.conjugation;
+        if(wIsVerb){const f=randomConjForm(w);return f?w.fr+' ('+f.frPerson+')':w.fr}
+        return w.fr;
+      });
+      dailyOpts=[...distAnswers,corAnswer].sort(()=>Math.random()-.5);
+      dailyQcm[idx]._dir='sk';dailyQcm[idx]._prompt=conjForm.full;dailyQcm[idx]._correct=corAnswer;dailyQcm[idx]._conjMode=true;
+    }else{
+      dailyOpts=[...dist.map(w=>w.fr),cor.fr].sort(()=>Math.random()-.5);
+      dailyQcm[idx]._dir='sk';dailyQcm[idx]._prompt=cor.lemma||cor.original;dailyQcm[idx]._correct=cor.fr;dailyQcm[idx]._conjMode=false;
+    }
+  }else{
+    // FR→SK: show "être (ja)" → answer: "som"
+    if(isVerb&&conjForm){
+      const corAnswer=conjForm.full; // "ja som"
+      const distAnswers=dist.map(w=>{
+        const wIsVerb=(w._cat==='verb'||w.type==='verb')&&w.conjugation;
+        if(wIsVerb){const f=randomConjForm(w);return f?f.full:(w.lemma||w.original)}
+        return w.lemma||w.original;
+      });
+      dailyOpts=[...distAnswers,corAnswer].sort(()=>Math.random()-.5);
+      dailyQcm[idx]._dir='fr';dailyQcm[idx]._prompt=cor.fr+' ('+conjForm.frPerson+')';dailyQcm[idx]._correct=corAnswer;dailyQcm[idx]._conjMode=true;
+    }else{
+      dailyOpts=[...dist.map(w=>w.lemma||w.original),cor.lemma||cor.original].sort(()=>Math.random()-.5);
+      dailyQcm[idx]._dir='fr';dailyQcm[idx]._prompt=cor.fr;dailyQcm[idx]._correct=cor.lemma||cor.original;dailyQcm[idx]._conjMode=false;
+    }
+  }
+  dailyAns=null;
+}
+
+function handleDailyAnswer(selected){
+  const w=dailyQcm[dailyIdx];
+  const correct=w._correct;
+  const ok=selected===correct;
+  dailyAns=selected;dailyScore.ok+=ok?1:0;dailyScore.total+=1;
+  const cat=w._cat||w.type;
+  if(cat&&vocab[cat]){const i=vocab[cat].findIndex(x=>(x.lemma||x.original)===(w.lemma||w.original));if(i!==-1){vocab[cat][i].box=ok?Math.min((vocab[cat][i].box||0)+1,5):Math.max((vocab[cat][i].box||0)-1,0);vocab[cat][i].lastReview=Date.now();saveVocab()}}
+  render();
+  setTimeout(()=>{if(dailyIdx+1<dailyQcm.length){dailyIdx++;makeDailyOpts(dailyIdx)}else{dailyActive='results'}render()},900);
+}
 
 // === Learning ===
 function getLearnWords(){const ws=learnCat==='all'?allFlat():(vocab[learnCat]||[]);return learnDueOnly?getDueWords(ws):ws}
@@ -55,26 +135,29 @@ const C=$('content');if(!C)return;
 const statsEl=$('header-stats');if(statsEl){const due=getAllDueCount();statsEl.textContent=totalWords()+' mots \u00b7 '+learnedWords()+' appris'+(due>0?' \u00b7 '+due+' \u00e0 r\u00e9viser':'')}
 const knownSet=getKnownLemmas();
 
-// === HOME (READ TAB) ===
+// === HOME ===
 if(currentTab==='read'){
 let h='<div style="max-width:700px;margin:0 auto">';
 
 // DAILY QCM ACTIVE
 if(dailyActive===true&&dailyQcm&&dailyQcm[dailyIdx]){
-  const w=dailyQcm[dailyIdx],dir=w._dir||'sk';
-  const prompt=dir==='sk'?(w.lemma||w.original):w.fr;
-  const correct=dir==='sk'?w.fr:(w.lemma||w.original);
+  const w=dailyQcm[dailyIdx];
+  const dir=w._dir||'sk';
+  const prompt=w._prompt||(dir==='sk'?(w.lemma||w.original):w.fr);
+  const correct=w._correct||(dir==='sk'?w.fr:(w.lemma||w.original));
   const ci=CATS[w._cat||w.type]||{color:'#aaa',label:'?',icon:'?'};
+  const isConj=w._conjMode;
+
   h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><button class="btn btn-sec" onclick="stopDaily()">\u2190 Retour</button><span class="mono" style="font-size:12px;color:var(--purp);font-weight:700">\ud83e\udde0 Daily '+(dailyIdx+1)+'/'+dailyQcm.length+'</span></div>';
   h+='<div class="progress-bar"><div class="progress-fill" style="width:'+(((dailyIdx+1)/dailyQcm.length)*100)+'%;background:var(--purp)"></div></div>';
   h+='<div class="card" style="text-align:center;border-top:3px solid var(--purp);margin-top:12px">';
-  h+='<div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px"><span class="tag" style="background:'+ci.color+'22;color:'+ci.color+'">'+ci.icon+' '+ci.label+'</span><span class="tag" style="background:var(--brd);color:var(--txD)">'+(dir==='sk'?'SK \u2192 FR':'FR \u2192 SK')+'</span></div>';
+  h+='<div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px"><span class="tag" style="background:'+ci.color+'22;color:'+ci.color+'">'+ci.icon+' '+ci.label+'</span><span class="tag" style="background:var(--brd);color:var(--txD)">'+(dir==='sk'?'SK \u2192 FR':'FR \u2192 SK')+'</span>'+(isConj?'<span class="tag" style="background:#E85D3A22;color:#E85D3A">conjugu\u00e9</span>':'')+'</div>';
   h+='<h2 class="mono-b" style="font-size:28px;margin:10px 0">'+esc(prompt)+'</h2>'+audioBtn(prompt,'6px 12px')+'</div>';
   dailyOpts.forEach(function(o){var cls='qcm-opt';if(dailyAns!==null){if(o===correct)cls+=' correct';else if(o===dailyAns&&o!==correct)cls+=' wrong'}h+='<div class="'+cls+'" onclick="if(dailyAns===null)handleDailyAnswer(\''+esc(o.replace(/'/g,"\\'"))+'\')">'+esc(o)+'</div>'});
   h+='</div>';C.innerHTML=h;return;
 }
 
-// DAILY QCM RESULTS
+// DAILY RESULTS
 if(dailyActive==='results'){
   const pct=dailyScore.total?Math.round(dailyScore.ok/dailyScore.total*100):0;
   h+='<div class="card" style="text-align:center;padding:36px;border-top:3px solid var(--purp)">';
@@ -86,11 +169,11 @@ if(dailyActive==='results'){
   h+='</div>';C.innerHTML=h;return;
 }
 
-// DAILY QCM BANNER (first thing on home)
+// DAILY BANNER
 if(allFlat().length>=4){
   const dN=getAllDueCount();
   h+='<div class="card" style="border-left:4px solid var(--purp);display:flex;justify-content:space-between;align-items:center;padding:16px 18px;margin-bottom:16px;background:linear-gradient(135deg,var(--card),#1a1028)">';
-  h+='<div><span style="font-size:22px">\ud83e\udde0</span> <strong style="color:var(--purp);font-size:15px">Daily QCM</strong><br><span class="muted">15 questions al\u00e9atoires \u00b7 toutes cat\u00e9gories'+(dN>0?' \u00b7 <span style="color:#ff9800">'+dN+' dus</span>':'')+'</span></div>';
+  h+='<div><span style="font-size:22px">\ud83e\udde0</span> <strong style="color:var(--purp);font-size:15px">Daily QCM</strong><br><span class="muted">15 questions \u00b7 verbes conjugu\u00e9s \u00b7 toutes cat\u00e9gories'+(dN>0?' \u00b7 <span style="color:#ff9800">'+dN+' dus</span>':'')+'</span></div>';
   h+='<button class="btn" style="background:var(--purp);color:#fff;padding:12px 20px;font-size:13px" onclick="startDailyQcm()">\ud83c\udfb2 Lancer</button></div>';
 }
 
@@ -103,15 +186,13 @@ h+='<div style="display:flex;gap:7px;margin-bottom:14px">';[['easy','\ud83d\udfe
 h+='<button class="btn btn-pri" style="width:100%;padding:13px;font-size:14px" onclick="doGenerate()" '+(readLoading?'disabled':'')+'>'+( readLoading?'\u23f3 G\u00e9n\u00e9ration...':'\ud83d\ude80 G\u00e9n\u00e9rer le texte')+'</button></div>';
 if(readLoading)h+='<div class="card" style="text-align:center;padding:30px"><div class="spinner" style="width:24px;height:24px;margin:0 auto 12px"></div><p class="muted">L\'IA \u00e9crit ton texte...</p></div>';
 if(readAddedCount>0&&!readAnalyzing)h+='<div class="card" style="border-color:var(--grn);color:var(--grn);text-align:center">\u2705 '+readAddedCount+' mot'+(readAddedCount>1?'s':'')+' ajout\u00e9'+(readAddedCount>1?'s':'')+'</div>';
-
-// Generated text
 if(readText&&!readLoading){
-  h+='<h3 style="font-size:15px;font-weight:700;margin-bottom:4px">'+esc(readText.title||'Texte')+'</h3><p class="muted" style="margin-bottom:12px">\ud83d\udca1 <b style="color:var(--blu)">phrase</b>=traduction \u00b7 <b style="color:var(--acc)">mot</b>=capturer \u00b7 <span style="color:var(--grn)">\u2588</span>=connu</p>';
+  h+='<h3 style="font-size:15px;font-weight:700;margin-bottom:4px">'+esc(readText.title||'Texte')+'</h3><p class="muted" style="margin-bottom:12px">\ud83d\udca1 <b style="color:var(--blu)">phrase</b>=trad \u00b7 <b style="color:var(--acc)">mot</b>=capturer \u00b7 <span style="color:var(--grn)">\u2588</span>=connu</p>';
   h+='<div style="display:flex;flex-direction:column;gap:2px">';
   readText.sentences.forEach((s,i)=>{const rev=readRevealed.has(i);h+='<div style="border-radius:6px;overflow:hidden"><div class="sentence-row" style="border-left-color:'+(rev?'var(--blu)':'var(--brd)')+'" onclick="readRevealed.has('+i+')?readRevealed.delete('+i+'):readRevealed.add('+i+');render()"><span class="s-num">'+(i+1)+'</span><div style="flex:1;display:flex;flex-wrap:wrap;gap:3px">';s.sk.split(/(\s+)/).forEach(w=>{if(!w.trim()){h+='<span>&nbsp;</span>';return}const c=w.replace(/[.,!?;:\'\u2019\u201e\u201c\u2014\u2013\-()[\]]/g,'').toLowerCase();const sel=readSelected.has(c);const known=knownSet.has(c);let st='';if(sel)st='background:rgba(232,93,58,.25);color:var(--acc);';else if(known)st='border-bottom:2px solid var(--grn);color:var(--grn);';h+='<span class="word-token" style="'+st+'" onclick="event.stopPropagation();toggleWord(\''+esc(w.replace(/'/g,"\\'"))+'\')">'+esc(w)+'</span>'});h+='</div>'+audioBtn(s.sk,'4px 8px')+'<span style="color:#444;font-size:13px;margin-left:4px">'+(rev?'\u25be':'\u25b8')+'</span></div>';if(rev)h+='<div class="fr-translation">'+esc(s.fr)+'</div>';h+='</div>'});
   h+='</div>';
   if(readSelected.size>0){h+='<div class="sel-bar"><div style="display:flex;flex-wrap:wrap;gap:5px;flex:1">';readSelected.forEach(w=>{h+='<span class="sel-tag" onclick="toggleWord(\''+esc(w)+'\')">'+(knownSet.has(w)?'\u2705 ':'')+esc(w)+' \u2715</span>'});h+='</div><button class="btn btn-grn" onclick="doAddWords()" '+(readAnalyzing?'disabled':'')+'>'+( readAnalyzing?'\u23f3 Analyse...':'\u271a Ajouter '+readSelected.size+' mot'+(readSelected.size>1?'s':''))+'</button></div>'}
-  if(readAnalyzing)h+='<div style="text-align:center;padding:20px"><div class="spinner"></div><p class="muted" style="margin-top:8px">L\'IA cat\u00e9gorise tes mots...</p></div>';
+  if(readAnalyzing)h+='<div style="text-align:center;padding:20px"><div class="spinner"></div><p class="muted" style="margin-top:8px">L\'IA cat\u00e9gorise...</p></div>';
 }
 if(!readText&&!readLoading){h+='<p class="muted" style="margin-top:16px;margin-bottom:10px">\ud83d\udca1 Id\u00e9es :</p><div style="display:flex;flex-wrap:wrap;gap:7px">';THEMES.forEach(t=>{h+='<button class="btn btn-sec" style="font-size:11px;padding:6px 12px" onclick="readTheme=\''+t+'\';render()">'+t+'</button>'});h+='</div>'}
 h+='</div>';C.innerHTML=h;return;
@@ -120,8 +201,8 @@ h+='</div>';C.innerHTML=h;return;
 // === VOCAB ===
 if(currentTab==='vocab'){
 let h='<div style="max-width:700px;margin:0 auto">';
-h+='<div class="card" style="display:flex;gap:8px;align-items:center;padding:12px 16px"><input id="manual-word-input" placeholder="\u270f\ufe0f Tape un mot fran\u00e7ais \u2192 IA traduit en slovaque" value="'+esc(addWordInput)+'" oninput="addWordInput=this.value" onkeydown="if(event.key===\'Enter\')doAddManualWord()" style="flex:1;padding:10px 14px;border-radius:9px;background:var(--sf);border:1px solid var(--brd);color:var(--txt);font-size:13px"><button class="btn btn-pri" onclick="doAddManualWord()" '+(addingWord?'disabled':'')+'>'+( addingWord?'\u23f3':'\u271a Ajouter')+'</button></div>';
-h+='<input placeholder="\ud83d\udd0d Chercher (FR ou SK)..." value="'+esc(searchTerm)+'" oninput="searchTerm=this.value;render()" style="width:100%;padding:10px 14px;border-radius:9px;background:var(--sf);border:1px solid var(--brd);color:var(--txt);font-size:13px;margin-bottom:12px">';
+h+='<div class="card" style="display:flex;gap:8px;align-items:center;padding:12px 16px"><input id="manual-word-input" placeholder="\u270f\ufe0f Mot fran\u00e7ais \u2192 IA traduit" value="'+esc(addWordInput)+'" oninput="addWordInput=this.value" onkeydown="if(event.key===\'Enter\')doAddManualWord()" style="flex:1;padding:10px 14px;border-radius:9px;background:var(--sf);border:1px solid var(--brd);color:var(--txt);font-size:13px"><button class="btn btn-pri" onclick="doAddManualWord()" '+(addingWord?'disabled':'')+'>'+( addingWord?'\u23f3':'\u271a')+'</button></div>';
+h+='<input placeholder="\ud83d\udd0d Chercher..." value="'+esc(searchTerm)+'" oninput="searchTerm=this.value;render()" style="width:100%;padding:10px 14px;border-radius:9px;background:var(--sf);border:1px solid var(--brd);color:var(--txt);font-size:13px;margin-bottom:12px">';
 if(searchTerm.length>1){const res=allFlat().filter(w=>(w.lemma||w.original||'').toLowerCase().includes(searchTerm.toLowerCase())||(w.fr||'').toLowerCase().includes(searchTerm.toLowerCase())).slice(0,15);if(!res.length)h+='<p class="muted" style="text-align:center;padding:20px">Aucun r\u00e9sultat</p>';else res.forEach(w=>{const cat=CATS[w._cat]||{};h+='<div class="card" style="border-left:4px solid '+(cat.color||'#666')+';padding:10px 14px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px"><span class="mono-b">'+esc(w.lemma||w.original)+'</span>'+audioBtn(w.lemma||w.original)+'<span class="muted">'+esc(w.fr)+'</span><span class="tag" style="background:'+(cat.color||'#666')+'22;color:'+(cat.color||'#666')+';font-size:9px">'+(cat.label||w._cat)+'</span></div></div>'})}
 else{h+='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">';Object.entries(CATS).forEach(([k,c])=>{const count=(vocab[k]||[]).length;if(!count&&vocabCatTab!==k)return;const due=getDueWords(vocab[k]||[]).length;h+='<button class="btn '+(vocabCatTab===k?'btn-pri':'btn-sec')+'" style="font-size:10px;padding:6px 10px;'+(vocabCatTab===k?'background:'+c.color:'')+'" onclick="vocabCatTab=\''+k+'\';render()">'+c.icon+' '+c.label+' <span style="opacity:.7">'+count+'</span>'+(due>0?'<span style="background:#ff9800;color:#000;border-radius:8px;padding:0 5px;font-size:9px;margin-left:3px">'+due+'</span>':'')+'</button>'});h+='</div>';
 const words=vocab[vocabCatTab]||[];
