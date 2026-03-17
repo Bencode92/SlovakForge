@@ -1,13 +1,14 @@
-// SlovakForge App v3 — Sprint 1: Leitner scheduling, highlight known, grammar notes
-const CATS={verb:{label:'Verbes',icon:'\u26a1',color:'#E85D3A'},noun:{label:'Noms',icon:'\ud83d\udce6',color:'#2D7DD2'},conjunction:{label:'Conjonctions',icon:'\ud83d\udd17',color:'#9C27B0'},adjective:{label:'Adjectifs',icon:'\ud83c\udfa8',color:'#4CAF50'},expression:{label:'Expressions',icon:'\ud83d\udcac',color:'#FF9800'}};
+// SlovakForge App v4 — Sprint 2: 9 categories (pronoun, preposition, adverb, number)
+const CATS={verb:{label:'Verbes',icon:'\u26a1',color:'#E85D3A'},noun:{label:'Noms',icon:'\ud83d\udce6',color:'#2D7DD2'},conjunction:{label:'Conjonctions',icon:'\ud83d\udd17',color:'#9C27B0'},adjective:{label:'Adjectifs',icon:'\ud83c\udfa8',color:'#4CAF50'},pronoun:{label:'Pronoms',icon:'\ud83d\udc64',color:'#00BCD4'},preposition:{label:'Pr\u00e9positions',icon:'\ud83d\udccd',color:'#795548'},adverb:{label:'Adverbes',icon:'\u23f1',color:'#607D8B'},number:{label:'Nombres',icon:'\ud83d\udd22',color:'#FF5722'},expression:{label:'Expressions',icon:'\ud83d\udcac',color:'#FF9800'}};
 const THEMES=['Au restaurant','Premier rendez-vous','Chez le m\u00e9decin','Faire les courses','Au travail','Week-end en famille','Dans le bus','Vacances en Slovaquie','Cuisine slovaque','Discussion avec belle-m\u00e8re','\u00c0 la boulangerie','Sport et loisirs'];
+const ALL_TYPES=Object.keys(CATS);
 
 // === Leitner intervals (days) ===
 const LEITNER_DAYS=[0,1,3,7,14,30];
 function isDue(word){
   const box=word.box||0;
-  if(box>=5)return false; // mastered, only review after 30d
-  if(!word.lastReview)return true; // never reviewed
+  if(box>=5)return false;
+  if(!word.lastReview)return true;
   const daysSince=(Date.now()-word.lastReview)/(1000*60*60*24);
   return daysSince>=LEITNER_DAYS[box];
 }
@@ -15,7 +16,7 @@ function getDueWords(words){return words.filter(isDue)}
 function getAllDueCount(){return Object.values(vocab).flat().filter(isDue).length}
 
 // === State ===
-let vocab={verb:[],noun:[],conjunction:[],adjective:[],expression:[]},currentTab='read',vocabCatTab='verb';
+let vocab={verb:[],noun:[],conjunction:[],adjective:[],pronoun:[],preposition:[],adverb:[],number:[],expression:[]},currentTab='read',vocabCatTab='verb';
 let readTheme='',readLevel='easy',readText=null,readRevealed=new Set(),readSelected=new Set();
 let readLoading=false,readAnalyzing=false,readAddedCount=0,readError='';
 let learnMode=null,learnCat=null,learnIdx=0,learnFlip=false,learnDir='sk',learnDueOnly=false;
@@ -29,18 +30,12 @@ function setStatus(t,show=true){$('status-bar').classList.toggle('hidden',!show)
 function allFlat(){return Object.entries(vocab).flatMap(([c,ws])=>ws.map(w=>({...w,_cat:c})))}
 function totalWords(){return Object.values(vocab).flat().length}
 function learnedWords(){return Object.values(vocab).flat().filter(w=>(w.box||0)>=3).length}
-
-// === Known words set (for highlighting in reader) ===
-function getKnownLemmas(){
-  const s=new Set();
-  Object.values(vocab).flat().forEach(w=>{if(w.lemma)s.add(w.lemma.toLowerCase());if(w.original)s.add(w.original.toLowerCase())});
-  return s;
-}
+function getKnownLemmas(){const s=new Set();Object.values(vocab).flat().forEach(w=>{if(w.lemma)s.add(w.lemma.toLowerCase());if(w.original)s.add(w.original.toLowerCase())});return s}
 
 // === Data ===
 async function loadVocab(){
   setStatus('Chargement...');
-  try{const data=await ghGetRaw('data/vocab.json');if(data&&data.words)vocab=data.words}catch(e){console.error('Load:',e);const ls=localStorage.getItem('sf_vocab');if(ls)try{vocab=JSON.parse(ls)}catch{}}
+  try{const data=await ghGetRaw('data/vocab.json');if(data&&data.words){vocab=data.words;ALL_TYPES.forEach(t=>{if(!vocab[t])vocab[t]=[]})}}catch(e){console.error('Load:',e);const ls=localStorage.getItem('sf_vocab');if(ls)try{vocab=JSON.parse(ls)}catch{}}
   setStatus('',false);render();
 }
 async function saveVocab(){await saveVocabToGH(vocab)}
@@ -53,11 +48,11 @@ async function doGenerate(){
   catch(e){readError=e.message||'Erreur API'}
   readLoading=false;render();
 }
-function toggleWord(w){const c=w.replace(/[.,!?;:"""'\u2019\u201e\u201c\u2014\u2013\-()\[\]]/g,'').trim().toLowerCase();if(!c||c.length<2)return;readSelected.has(c)?readSelected.delete(c):readSelected.add(c);render()}
+function toggleWord(w){const c=w.replace(/[.,!?;:"""'\u2019\u201e\u201c\u2014\u2013\-()[\]]/g,'').trim().toLowerCase();if(!c||c.length<2)return;readSelected.has(c)?readSelected.delete(c):readSelected.add(c);render()}
 async function doAddWords(){
   if(!readSelected.size)return;readAnalyzing=true;readError='';render();
   const ctx=readText?.sentences?.map(s=>s.sk).join(' ')||'';
-  try{const r=await aiAnalyzeWords([...readSelected],ctx);if(r?.words){let count=0;r.words.forEach(w=>{const k=['verb','noun','adjective','conjunction','expression'].includes(w.type)?w.type:'expression';if(!vocab[k])vocab[k]=[];if(!vocab[k].some(e=>(e.lemma||e.original)===(w.lemma||w.original))){vocab[k].push({...w,box:0,lastReview:null,addedAt:Date.now()});count++}});readAddedCount=count;readSelected=new Set();await saveVocab()}}catch(e){readError=e.message}
+  try{const r=await aiAnalyzeWords([...readSelected],ctx);if(r?.words){let count=0;r.words.forEach(w=>{const k=ALL_TYPES.includes(w.type)?w.type:'expression';if(!vocab[k])vocab[k]=[];if(!vocab[k].some(e=>(e.lemma||e.original)===(w.lemma||w.original))){vocab[k].push({...w,box:0,lastReview:null,addedAt:Date.now()});count++}});readAddedCount=count;readSelected=new Set();await saveVocab()}}catch(e){readError=e.message}
   readAnalyzing=false;render();
 }
 function deleteWord(cat,idx){vocab[cat].splice(idx,1);saveVocab();render()}
@@ -66,32 +61,22 @@ function deleteWord(cat,idx){vocab[cat].splice(idx,1);saveVocab();render()}
 async function doAddManualWord(){
   const input=$('manual-word-input');const word=input?.value?.trim();if(!word)return;
   addingWord=true;render();
-  try{const r=await aiTranslateWord(word);if(r){const k=['verb','noun','adjective','conjunction','expression'].includes(r.type)?r.type:'expression';if(!vocab[k])vocab[k]=[];if(!vocab[k].some(e=>(e.lemma||e.original)===(r.lemma||r.original))){vocab[k].push({...r,box:0,lastReview:null,addedAt:Date.now()});await saveVocab();addWordInput=''}}}catch(e){console.error(e)}
+  try{const r=await aiTranslateWord(word);if(r){const k=ALL_TYPES.includes(r.type)?r.type:'expression';if(!vocab[k])vocab[k]=[];if(!vocab[k].some(e=>(e.lemma||e.original)===(r.lemma||r.original))){vocab[k].push({...r,box:0,lastReview:null,addedAt:Date.now()});await saveVocab();addWordInput=''}}}catch(e){console.error(e)}
   addingWord=false;render();
 }
 
 // === Learning ===
-function getLearnWords(){
-  const ws=learnCat==='all'?allFlat():(vocab[learnCat]||[]);
-  if(learnDueOnly)return getDueWords(ws);
-  return ws;
-}
+function getLearnWords(){const ws=learnCat==='all'?allFlat():(vocab[learnCat]||[]);return learnDueOnly?getDueWords(ws):ws}
 function startLearn(cat,mode,dueOnly){
-  const base=cat==='all'?allFlat():(vocab[cat]||[]);
-  const ws=dueOnly?getDueWords(base):base;
-  if(ws.length<2){readError='Pas assez de mots'+(dueOnly?' dus':'')+'(min 2).';render();setTimeout(()=>{readError='';render()},3000);return}
+  const base=cat==='all'?allFlat():(vocab[cat]||[]);const ws=dueOnly?getDueWords(base):base;
+  if(ws.length<2){readError='Pas assez de mots'+(dueOnly?' dus':'')+' (min 2).';render();setTimeout(()=>{readError='';render()},3000);return}
   learnCat=cat;learnMode=mode;learnIdx=0;learnFlip=false;learnDueOnly=!!dueOnly;
   learnScore={ok:0,total:0};learnStreak=0;quizAns=null;fillAns=null;
   if(mode==='quiz')makeQuizOpts(0,ws);
   if(mode==='fill'){fillLoading=true;fillIdx=0;render();aiGenerateFill(ws).then(r=>{fillExs=r?.exercises||[];fillLoading=false;render()}).catch(()=>{fillExs=[];fillLoading=false;render()})}
   render();
 }
-function makeQuizOpts(idx,ws){
-  const cor=ws[idx];if(!cor)return;
-  const oth=ws.filter((_,i)=>i!==idx).sort(()=>Math.random()-.5).slice(0,3);
-  quizOpts=learnDir==='fr'?[...oth.map(w=>w.lemma||w.original),cor.lemma||cor.original].sort(()=>Math.random()-.5):[...oth.map(w=>w.fr),cor.fr].sort(()=>Math.random()-.5);
-  quizAns=null;
-}
+function makeQuizOpts(idx,ws){const cor=ws[idx];if(!cor)return;const oth=ws.filter((_,i)=>i!==idx).sort(()=>Math.random()-.5).slice(0,3);quizOpts=learnDir==='fr'?[...oth.map(w=>w.lemma||w.original),cor.lemma||cor.original].sort(()=>Math.random()-.5):[...oth.map(w=>w.fr),cor.fr].sort(()=>Math.random()-.5);quizAns=null}
 function handleAnswer(ok){
   learnScore.ok+=ok?1:0;learnScore.total+=1;learnStreak=ok?learnStreak+1:0;
   const ws=getLearnWords(),w=ws[learnIdx];
@@ -101,15 +86,8 @@ function handleAnswer(ok){
 }
 
 // === Helpers ===
-function conjHTML(conj){
-  if(!conj)return'';
-  const persons=['ja','ty','on/ona','my','vy','oni'];
-  const forms=conj.split(',').map(f=>f.trim());
-  let h='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px 12px;margin-top:6px">';
-  forms.forEach((f,j)=>{h+='<div style="padding:2px 0"><span style="font-size:9px;color:var(--txD)">'+(persons[j]||'')+'</span><br><span class="mono" style="font-size:12px;color:var(--txt)">'+esc(f)+'</span></div>'});
-  return h+'</div>';
-}
-function audioBtn(text,size){return'<button onclick="event.stopPropagation();speak(\''+esc(text.replace(/'/g,"\\'"))+'\')" style="background:none;border:1px solid var(--brd);border-radius:6px;color:var(--blu);cursor:pointer;padding:'+(size||'3px 6px')+';font-size:'+(size?'14px':'12px')+'" title="Prononcer">\ud83d\udd0a</button>'}
+function conjHTML(conj){if(!conj)return'';const persons=['ja','ty','on/ona','my','vy','oni'];const forms=conj.split(',').map(f=>f.trim());let h='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px 12px;margin-top:6px">';forms.forEach((f,j)=>{h+='<div style="padding:2px 0"><span style="font-size:9px;color:var(--txD)">'+(persons[j]||'')+'</span><br><span class="mono" style="font-size:12px;color:var(--txt)">'+esc(f)+'</span></div>'});return h+'</div>'}
+function audioBtn(text,size){return'<button onclick="event.stopPropagation();speak(\''+esc(text.replace(/'/g,"\\'"))+'\',\'sk-SK\')" style="background:none;border:1px solid var(--brd);border-radius:6px;color:var(--blu);cursor:pointer;padding:'+(size||'3px 6px')+';font-size:'+(size?'14px':'12px')+'" title="Prononcer">\ud83d\udd0a</button>'}
 function grammarBadge(note){if(!note||note==='null')return'';return'<p style="font-size:10px;color:#ff9800;margin-top:3px;background:#ff980015;padding:3px 7px;border-radius:3px;border-left:2px solid #ff9800;display:inline-block">\ud83d\udcdd '+esc(note)+'</p>'}
 
 // ==================== RENDER ====================
@@ -133,22 +111,12 @@ function render(){
       readText.sentences.forEach((s,i)=>{
         const rev=readRevealed.has(i);
         h+='<div style="border-radius:6px;overflow:hidden"><div class="sentence-row" style="border-left-color:'+(rev?'var(--blu)':'var(--brd)')+'" onclick="readRevealed.has('+i+')?readRevealed.delete('+i+'):readRevealed.add('+i+');render()"><span class="s-num">'+(i+1)+'</span><div style="flex:1;display:flex;flex-wrap:wrap;gap:3px">';
-        s.sk.split(/(\s+)/).forEach(w=>{
-          if(!w.trim()){h+='<span>&nbsp;</span>';return}
-          const c=w.replace(/[.,!?;:\'\u2019\u201e\u201c\u2014\u2013\-()\[\]]/g,'').toLowerCase();
-          const sel=readSelected.has(c);
-          const known=knownSet.has(c);
-          let style='';if(sel)style='background:rgba(232,93,58,.25);color:var(--acc);';else if(known)style='border-bottom:2px solid var(--grn);color:var(--grn);';
-          h+='<span class="word-token" style="'+style+'" onclick="event.stopPropagation();toggleWord(\''+esc(w.replace(/'/g,"\\'"))+'\')">'+(known&&!sel?'':'')+esc(w)+'</span>';
-        });
+        s.sk.split(/(\s+)/).forEach(w=>{if(!w.trim()){h+='<span>&nbsp;</span>';return}const c=w.replace(/[.,!?;:\'\u2019\u201e\u201c\u2014\u2013\-()[\]]/g,'').toLowerCase();const sel=readSelected.has(c);const known=knownSet.has(c);let style='';if(sel)style='background:rgba(232,93,58,.25);color:var(--acc);';else if(known)style='border-bottom:2px solid var(--grn);color:var(--grn);';h+='<span class="word-token" style="'+style+'" onclick="event.stopPropagation();toggleWord(\''+esc(w.replace(/'/g,"\\'"))+'\')">'+esc(w)+'</span>'});
         h+='</div>'+audioBtn(s.sk,'4px 8px')+'<span style="color:#444;font-size:13px;margin-left:4px">'+(rev?'\u25be':'\u25b8')+'</span></div>';
         if(rev)h+='<div class="fr-translation">'+esc(s.fr)+'</div>';
         h+='</div>';
-      });
-      h+='</div>';
-      if(readSelected.size>0){
-        h+='<div class="sel-bar"><div style="display:flex;flex-wrap:wrap;gap:5px;flex:1">';readSelected.forEach(w=>{h+='<span class="sel-tag" onclick="toggleWord(\''+esc(w)+'\')">'+(knownSet.has(w)?'\u2705 ':'')+esc(w)+' \u2715</span>'});h+='</div><button class="btn btn-grn" onclick="doAddWords()" '+(readAnalyzing?'disabled':'')+'>'+( readAnalyzing?'\u23f3 Analyse...':'\u271a Ajouter '+readSelected.size+' mot'+(readSelected.size>1?'s':''))+'</button></div>';
-      }
+      });h+='</div>';
+      if(readSelected.size>0){h+='<div class="sel-bar"><div style="display:flex;flex-wrap:wrap;gap:5px;flex:1">';readSelected.forEach(w=>{h+='<span class="sel-tag" onclick="toggleWord(\''+esc(w)+'\')">'+(knownSet.has(w)?'\u2705 ':'')+esc(w)+' \u2715</span>'});h+='</div><button class="btn btn-grn" onclick="doAddWords()" '+(readAnalyzing?'disabled':'')+'>'+( readAnalyzing?'\u23f3 Analyse...':'\u271a Ajouter '+readSelected.size+' mot'+(readSelected.size>1?'s':''))+'</button></div>'}
       if(readAnalyzing)h+='<div style="text-align:center;padding:20px"><div class="spinner"></div><p class="muted" style="margin-top:8px">L\'IA cat\u00e9gorise tes mots...</p></div>';
     }
     if(!readText&&!readLoading){h+='<p class="muted" style="margin-top:16px;margin-bottom:10px">\ud83d\udca1 Id\u00e9es :</p><div style="display:flex;flex-wrap:wrap;gap:7px">';THEMES.forEach(t=>{h+='<button class="btn btn-sec" style="font-size:11px;padding:6px 12px" onclick="readTheme=\''+t+'\';render()">'+t+'</button>'});h+='</div>'}
@@ -163,9 +131,11 @@ function render(){
     if(searchTerm.length>1){
       const res=allFlat().filter(w=>(w.lemma||w.original||'').toLowerCase().includes(searchTerm.toLowerCase())||(w.fr||'').toLowerCase().includes(searchTerm.toLowerCase())).slice(0,15);
       if(!res.length)h+='<p class="muted" style="text-align:center;padding:20px">Aucun r\u00e9sultat</p>';
-      else res.forEach(w=>{const cat=CATS[w._cat]||{};h+='<div class="card" style="border-left:4px solid '+(cat.color||'#666')+';padding:10px 14px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px"><span class="mono-b">'+esc(w.lemma||w.original)+'</span>'+audioBtn(w.lemma||w.original)+'<span class="muted">'+esc(w.fr)+'</span><span class="tag tag-acc" style="font-size:9px">'+(cat.label||'')+'</span></div></div>'});
+      else res.forEach(w=>{const cat=CATS[w._cat]||{};h+='<div class="card" style="border-left:4px solid '+(cat.color||'#666')+';padding:10px 14px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px"><span class="mono-b">'+esc(w.lemma||w.original)+'</span>'+audioBtn(w.lemma||w.original)+'<span class="muted">'+esc(w.fr)+'</span><span class="tag" style="background:'+(cat.color||'#666')+'22;color:'+(cat.color||'#666')+';font-size:9px">'+(cat.label||w._cat)+'</span></div></div>'});
     }else{
-      h+='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">';Object.entries(CATS).forEach(([k,c])=>{const due=getDueWords(vocab[k]||[]).length;h+='<button class="btn '+(vocabCatTab===k?'btn-pri':'btn-sec')+'" style="font-size:11px;'+(vocabCatTab===k?'background:'+c.color:'')+'" onclick="vocabCatTab=\''+k+'\';render()">'+c.icon+' '+c.label+' <span style="opacity:.7">'+(vocab[k]||[]).length+'</span>'+(due>0?'<span style="background:#ff9800;color:#000;border-radius:8px;padding:0 5px;font-size:9px;margin-left:3px">'+due+'</span>':'')+'</button>'});h+='</div>';
+      h+='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">';
+      Object.entries(CATS).forEach(([k,c])=>{const count=(vocab[k]||[]).length;if(!count&&vocabCatTab!==k)return;const due=getDueWords(vocab[k]||[]).length;h+='<button class="btn '+(vocabCatTab===k?'btn-pri':'btn-sec')+'" style="font-size:10px;padding:6px 10px;'+(vocabCatTab===k?'background:'+c.color:'')+'" onclick="vocabCatTab=\''+k+'\';render()">'+c.icon+' '+c.label+' <span style="opacity:.7">'+count+'</span>'+(due>0?'<span style="background:#ff9800;color:#000;border-radius:8px;padding:0 5px;font-size:9px;margin-left:3px">'+due+'</span>':'')+'</button>'});
+      h+='</div>';
       const words=vocab[vocabCatTab]||[];
       if(!words.length){h+='<div class="card" style="text-align:center;padding:40px"><p style="font-size:28px">\ud83d\udced</p><p class="muted" style="margin-top:8px">Aucun mot.</p><p class="muted" style="font-size:11px;margin-top:4px">Va dans "Lire" ou ajoute un mot ci-dessus !</p></div>'}
       else words.forEach((w,i)=>{
@@ -192,13 +162,9 @@ function render(){
   if(currentTab==='learn'){
     let h='<div style="max-width:540px;margin:0 auto">';const lw=getLearnWords();
     if(!learnMode){
-      // Due words banner
       const dueAll=getAllDueCount();
-      if(dueAll>0){
-        h+='<div class="card" style="border-color:#ff9800;border-left:4px solid #ff9800;display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:20px">\ud83d\udd25</span> <strong style="color:#ff9800">'+dueAll+' mot'+(dueAll>1?'s':'')+' \u00e0 r\u00e9viser</strong><br><span class="muted">R\u00e9p\u00e9tition espac\u00e9e Leitner</span></div><button class="btn" style="background:#ff9800;color:#000;padding:10px 18px" onclick="startLearn(\'all\',\'flash\',true)">\ud83c\udfaf R\u00e9vision du jour</button></div>';
-      }else{
-        h+='<div class="card" style="border-color:var(--grn);text-align:center;padding:20px"><span style="font-size:24px">\u2705</span><br><strong style="color:var(--grn)">Tout est \u00e0 jour !</strong><br><span class="muted">Aucun mot \u00e0 r\u00e9viser pour l\'instant</span></div>';
-      }
+      if(dueAll>0){h+='<div class="card" style="border-color:#ff9800;border-left:4px solid #ff9800;display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:20px">\ud83d\udd25</span> <strong style="color:#ff9800">'+dueAll+' mot'+(dueAll>1?'s':'')+' \u00e0 r\u00e9viser</strong><br><span class="muted">R\u00e9p\u00e9tition espac\u00e9e Leitner</span></div><button class="btn" style="background:#ff9800;color:#000;padding:10px 18px" onclick="startLearn(\'all\',\'flash\',true)">\ud83c\udfaf R\u00e9vision du jour</button></div>'}
+      else{h+='<div class="card" style="border-color:var(--grn);text-align:center;padding:20px"><span style="font-size:24px">\u2705</span><br><strong style="color:var(--grn)">Tout est \u00e0 jour !</strong><br><span class="muted">Aucun mot \u00e0 r\u00e9viser</span></div>'}
       h+='<h2 style="font-size:18px;font-weight:800;margin-bottom:4px;margin-top:16px">Sessions libres</h2><p class="muted" style="margin-bottom:10px">Direction :</p><div style="display:flex;gap:8px;margin-bottom:18px">';
       [['sk','SK \u2192 FR','#E85D3A'],['fr','FR \u2192 SK','#2D7DD2'],['mix','Al\u00e9atoire','#9C27B0']].forEach(([k,l,c])=>{h+='<button class="btn '+(learnDir===k?'btn-pri':'btn-sec')+'" style="flex:1;'+(learnDir===k?'background:'+c:'')+'" onclick="learnDir=\''+k+'\';render()">'+l+'</button>'});h+='</div>';
       [...Object.entries(CATS),['all',{label:'Tous les mots',icon:'\ud83c\udf0d',color:'#aaa'}]].forEach(([k,c])=>{const base=k==='all'?allFlat():(vocab[k]||[]);const n=base.length;const due=getDueWords(base).length;if(n<2)return;h+='<div class="card" style="border-left:4px solid '+c.color+'"><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono-b">'+c.icon+' '+c.label+' ('+n+')</span>'+(due>0?'<span class="tag" style="background:#ff980033;color:#ff9800">'+due+' dus</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">';h+='<button class="btn btn-sec" onclick="startLearn(\''+k+'\',\'flash\',false)">\ud83d\udcda Tout</button>';if(due>=2)h+='<button class="btn btn-sec" style="border-color:#ff9800;color:#ff9800" onclick="startLearn(\''+k+'\',\'flash\',true)">\ud83d\udd25 Dus ('+due+')</button>';h+='<button class="btn btn-sec" onclick="startLearn(\''+k+'\',\'quiz\',false)">\ud83c\udfaf Quiz</button>';if(n>=3)h+='<button class="btn btn-sec" onclick="startLearn(\''+k+'\',\'fill\',false)">\u270f\ufe0f Trous</button>';h+='</div></div>'});
