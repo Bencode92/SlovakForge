@@ -1,8 +1,7 @@
-// SlovakForge API Layer v4 — Sprint 2: expanded types (pronoun, preposition, adverb, number)
+// SlovakForge API Layer v5 — Fixed: removed ALL_TYPES (defined in app.js only)
 const PROXY='https://studyforge-proxy.benoit-comas.workers.dev';
 const GH={token:'',owner:'Bencode92',repo:'SlovakForge'};
 const RAW_BASE='https://raw.githubusercontent.com/Bencode92/SlovakForge/main/';
-const ALL_TYPES=['verb','noun','adjective','conjunction','pronoun','preposition','adverb','number','expression'];
 
 function hasToken(){return !!GH.token}
 function loadToken(){const s=sessionStorage.getItem('sf_sk_token');if(s){GH.token=s;return true}return false}
@@ -44,7 +43,7 @@ async function aiGenerateText(theme,level){
 }
 
 async function aiAnalyzeWords(words,context){
-  const sys='Tu analyses des mots slovaques pour un francophone. Reponds UNIQUEMENT en JSON valide sans markdown sans backticks.\nFormat: {"words":[{"original":"mot","lemma":"forme dictionnaire","type":"verb|noun|adjective|conjunction|pronoun|preposition|adverb|number|expression","fr":"traduction","gender":"M|F|N ou null","plural":"pluriel ou null","conjugation":"ja X, ty X, on/ona X, my X, vy X, oni X (present, verbes, sinon null)","example":"SK = FR","tip":"astuce mnemo","grammar_note":"si forme declinee: explique pourquoi. Sinon null."}]}\nTypes: verb=verbe, noun=nom, adjective=adjectif, conjunction=conjonction/liaison, pronoun=pronom (ja,ty,on,ten,moj...), preposition=preposition (v,na,do,z,s,od,pri,pre,bez,k,za...), adverb=adverbe (tu,tam,teraz,dnes,velmi...), number=nombre, expression=expression/phrase figee.\nDetecte le type precis.';
+  const sys='Tu analyses des mots slovaques pour un francophone. Reponds UNIQUEMENT en JSON valide sans markdown sans backticks.\nFormat: {"words":[{"original":"mot","lemma":"forme dictionnaire","type":"verb|noun|adjective|conjunction|pronoun|preposition|adverb|number|expression","fr":"traduction","gender":"M|F|N ou null","plural":"pluriel ou null","conjugation":"ja X, ty X, on/ona X, my X, vy X, oni X (present, verbes, sinon null)","example":"SK = FR","tip":"astuce mnemo","grammar_note":"si forme declinee: explique pourquoi. Sinon null."}]}\nTypes: verb, noun, adjective, conjunction, pronoun (ja,ty,on,moj,tvoj,ten...), preposition (v,na,do,z,s,od,pri,pre,bez,k,za,po...), adverb (tu,tam,teraz,dnes,velmi...), number, expression.';
   return parseJSON(await callClaude(sys,'Contexte: "'+context+'"\nMots: '+JSON.stringify(words)));
 }
 

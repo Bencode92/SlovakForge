@@ -72,7 +72,7 @@ input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focu
 <div id="app" style="display:flex;flex-direction:column;min-height:100vh">
   <header id="header">
     <div id="header-inner">
-      <div id="logo-wrap" onclick="switchTab('read')">
+      <div id="logo-wrap">
         <div id="logo">🇸🇰</div>
         <div>
           <h1 style="font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff">SlovakForge</h1>
@@ -81,7 +81,7 @@ input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focu
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div id="status-bar" class="hidden"><div class="spinner"></div><span id="status-text" style="font-size:11px;color:var(--acc)"></span></div>
-        <span id="gh-tag" class="tag tag-acc" style="cursor:pointer" onclick="requireToken(()=>{})">📖 Lecture</span>
+        <span id="gh-tag" class="tag tag-acc" style="cursor:pointer" onclick="requireToken(function(){})">📖 Lecture</span>
       </div>
     </div>
     <nav id="nav-tabs"></nav>
@@ -91,6 +91,5 @@ input,textarea,select{font-family:inherit;outline:none}input:focus,textarea:focu
 </div>
 <script src="api.js"></script>
 <script src="app.js"></script>
-<script src="patches.js"></script>
 </body>
 </html>
