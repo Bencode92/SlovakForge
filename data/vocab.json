@@ -10,10 +10,10 @@
         "past": "bol/bola som, bol/bola si, bol/bola, boli sme, boli ste, boli",
         "example": "Som šťastný. = Je suis heureux.",
         "tip": "Le verbe #1 ! Irrégulier.",
-        "box": 4,
-        "reviews": 4,
+        "box": 5,
+        "reviews": 5,
         "errors": 0,
-        "lastReview": 1773833838212
+        "lastReview": 1773833982958
       },
       {
         "lemma": "mať",
@@ -1092,7 +1092,11 @@
         "grammar_note": "+ génitif",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "de/depuis",
+        "_correct": "z/zo",
+        "_mode": "plain"
       },
       {
         "lemma": "s/so",
