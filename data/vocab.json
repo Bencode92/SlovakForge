@@ -226,8 +226,9 @@
         "example": "Čakaj! = Attends !",
         "tip": "Impératif: čakaj(te)!",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833823551
       },
       {
         "lemma": "kupovať",
@@ -236,8 +237,9 @@
         "example": "Čo kupuješ? = Qu'est-ce que tu achètes ?",
         "tip": "kúpiť = perfectif",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833825636
       },
       {
         "lemma": "povedať",
@@ -246,8 +248,9 @@
         "example": "Povieš mi? = Tu me diras ?",
         "tip": "Perfectif de hovoriť",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833828319
       },
       {
         "lemma": "páčiť sa",
@@ -256,12 +259,13 @@
         "example": "Páči sa mi to. = Ça me plaît.",
         "tip": "Construction inversée",
         "box": 0,
-        "reviews": 0,
-        "errors": 0,
+        "reviews": 1,
+        "errors": 1,
         "_dir": "fr",
         "_prompt": "plaire",
         "_correct": "páčiť sa",
-        "_mode": "plain"
+        "_mode": "plain",
+        "lastReview": 1773833831084
       }
     ],
     "noun": [
