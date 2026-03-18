@@ -70,13 +70,14 @@
         "conjugation": "ja rozumiem, ty rozumieš, on/ona rozumie, my rozumieme, vy rozumiete, oni rozumejú",
         "example": "Nerozumiem. = Je ne comprends pas.",
         "tip": "Phrase de survie #1",
-        "box": 0,
-        "reviews": 0,
+        "box": 1,
+        "reviews": 1,
         "errors": 0,
         "_dir": "sk",
         "_prompt": "rozumieť",
         "_correct": "comprendre",
-        "_mode": "plain"
+        "_mode": "plain",
+        "lastReview": 1773833746662
       },
       {
         "lemma": "milovať",
@@ -85,8 +86,9 @@
         "example": "Milujem ťa. = Je t'aime.",
         "tip": "Pour ta copine !",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833755814
       },
       {
         "lemma": "jesť",
