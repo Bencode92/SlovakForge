@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "lastUpdated": "2026-03-17",
+  "lastUpdated": "2026-03-18",
   "words": {
     "verb": [
       {
@@ -184,7 +184,11 @@
         "tip": "bývať v + ville",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "bývať",
+        "_correct": "habiter",
+        "_mode": "plain"
       },
       {
         "lemma": "spať",
@@ -601,8 +605,9 @@
         "example": "Hoci je mladý, je múdry.",
         "tip": "Concession formelle",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773820306717
       },
       {
         "lemma": "takže",
