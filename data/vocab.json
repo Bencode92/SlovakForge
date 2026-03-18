@@ -96,9 +96,10 @@
         "conjugation": "ja jem, ty ješ, on/ona je, my jeme, vy jete, oni jedia",
         "example": "Chceš jesť? = Tu veux manger ?",
         "tip": "3e pers. 'je' = mange ET est !",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833761978
       },
       {
         "lemma": "piť",
@@ -107,8 +108,9 @@
         "example": "Čo piješ? = Tu bois quoi ?",
         "tip": "piť kávu = boire un café",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833770165
       },
       {
         "lemma": "vedieť",
