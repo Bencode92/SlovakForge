@@ -10,10 +10,10 @@
         "past": "bol/bola som, bol/bola si, bol/bola, boli sme, boli ste, boli",
         "example": "Som šťastný. = Je suis heureux.",
         "tip": "Le verbe #1 ! Irrégulier.",
-        "box": 1,
-        "reviews": 1,
+        "box": 2,
+        "reviews": 2,
         "errors": 0,
-        "lastReview": 1773768526760
+        "lastReview": 1773820386061
       },
       {
         "lemma": "mať",
@@ -54,7 +54,11 @@
         "tip": "Question #1",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "faire",
+        "_correct": "robiť",
+        "_mode": "plain"
       },
       {
         "lemma": "hovoriť",
@@ -74,7 +78,11 @@
         "tip": "Phrase de survie #1",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "rozumieť",
+        "_correct": "comprendre",
+        "_mode": "plain"
       },
       {
         "lemma": "milovať",
@@ -134,7 +142,11 @@
         "tip": "Obligation forte",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "musieť",
+        "_correct": "devoir",
+        "_mode": "plain"
       },
       {
         "lemma": "prísť",
@@ -238,7 +250,11 @@
         "tip": "Construction inversée",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "plaire",
+        "_correct": "páčiť sa",
+        "_mode": "plain"
       }
     ],
     "noun": [
@@ -273,7 +289,11 @@
         "tip": "Aussi = mari",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "muž",
+        "_correct": "homme/mari",
+        "_mode": "plain"
       },
       {
         "lemma": "dieťa",
@@ -339,7 +359,11 @@
         "tip": "",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "auto",
+        "_correct": "voiture",
+        "_mode": "plain"
       },
       {
         "lemma": "ulica",
@@ -361,7 +385,11 @@
         "tip": "do + génitif",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "magasin",
+        "_correct": "obchod",
+        "_mode": "plain"
       },
       {
         "lemma": "práca",
@@ -427,7 +455,11 @@
         "tip": "starší = plus vieux",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "frère",
+        "_correct": "brat",
+        "_mode": "plain"
       },
       {
         "lemma": "škola",
@@ -506,8 +538,9 @@
         "example": "Preto som tu.",
         "tip": "Conséquence",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773820353394
       },
       {
         "lemma": "teda",
@@ -560,8 +593,9 @@
         "example": "Však to nie je pravda.",
         "tip": "Plus formel que ale",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773820339879
       },
       {
         "lemma": "aj keď",
@@ -642,8 +676,9 @@
         "example": "Nakoniec sme to zvládli.",
         "tip": "Conclusion",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773820345978
       }
     ],
     "adjective": [
@@ -901,7 +936,11 @@
         "tip": "",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "nous",
+        "_correct": "my",
+        "_mode": "plain"
       },
       {
         "lemma": "vy",
@@ -1082,9 +1121,10 @@
         "example": "Bez cukru.",
         "tip": "",
         "grammar_note": "+ génitif",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820325729
       },
       {
         "lemma": "k/ku",
