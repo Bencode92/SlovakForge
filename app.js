@@ -81,8 +81,8 @@ function pick10Words(forceNew){
   return result;
 }
 function startFocus(forceNew){const words=pick10Words(forceNew);if(!words||words.length<4){readError='Min 4 mots.';render();setTimeout(()=>{readError='';render()},3000);return}focusWords=words.map(w=>({...w,_wrong:false}));focusPhase='discover';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusRound=1;focusTyping='';focusListen=false;setFocusSession('discover');render()}
-function startFocusQuiz(){focusPhase='quiz';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusTyping='';makeFocusOpts(0);setFocusSession('quiz');render()}
-function startFocusHard(){focusPhase='hard';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusTyping='';makeFocusHard(0);setFocusSession('hard');render()}
+function startFocusQuiz(){if(!focusWords){const words=pick10Words(false);if(!words||words.length<4)return;focusWords=words.map(w=>({...w,_wrong:false}))}focusPhase='quiz';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusTyping='';makeFocusOpts(0);setFocusSession('quiz');render()}
+function startFocusHard(){if(!focusWords){const words=pick10Words(false);if(!words||words.length<4)return;focusWords=words.map(w=>({...w,_wrong:false}))}focusPhase='hard';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusTyping='';makeFocusHard(0);setFocusSession('hard');render()}
 function startFocusRetry(){const wrong=focusWords.filter(w=>w._wrong);if(wrong.length<2){focusPhase='done';render();return}focusWords=wrong.map(w=>({...w,_wrong:false}));focusRound++;focusPhase='quiz';focusIdx=0;focusAns=null;focusScore={ok:0,total:0};focusTyping='';makeFocusOpts(0);render()}
 function stopFocus(){focusWords=null;focusPhase='discover';render()}
 function makeFocusOpts(idx){if(!focusWords||!focusWords[idx])return;const r=buildSmartQcm(focusWords[idx],allFlat());focusOpts=r.opts;focusMeta=r;focusAns=null;focusTyping=''}
