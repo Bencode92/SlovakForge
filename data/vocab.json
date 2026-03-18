@@ -118,9 +118,10 @@
         "conjugation": "ja viem, ty vieš, on/ona vie, my vieme, vy viete, oni vedia",
         "example": "Neviem. = Je ne sais pas.",
         "tip": "Très courant",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833781151
       },
       {
         "lemma": "môcť",
@@ -128,9 +129,10 @@
         "conjugation": "ja môžem, ty môžeš, on/ona môže, my môžeme, vy môžete, oni môžu",
         "example": "Môžeme sa stretnúť? = On peut se voir ?",
         "tip": "Capacité / permission",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833789270
       },
       {
         "lemma": "musieť",
