@@ -200,12 +200,13 @@
         "example": "Kde bývaš? = Où habites-tu ?",
         "tip": "bývať v + ville",
         "box": 0,
-        "reviews": 0,
-        "errors": 0,
+        "reviews": 1,
+        "errors": 1,
         "_dir": "sk",
         "_prompt": "bývať",
         "_correct": "habiter",
-        "_mode": "plain"
+        "_mode": "plain",
+        "lastReview": 1773833817319
       },
       {
         "lemma": "spať",
@@ -214,8 +215,9 @@
         "example": "Chcem spať. = Je veux dormir.",
         "tip": "spál/a = j'ai dormi",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833820583
       },
       {
         "lemma": "čakať",
