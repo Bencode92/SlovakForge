@@ -59,10 +59,10 @@
         "conjugation": "ja hovorím, ty hovoríš, on/ona hovorí, my hovoríme, vy hovoríte, oni hovoria",
         "example": "Hovoríš po slovensky?",
         "tip": "hovoriť po + langue",
-        "box": 0,
-        "reviews": 2,
+        "box": 1,
+        "reviews": 3,
         "errors": 2,
-        "lastReview": 1773833855778
+        "lastReview": 1773833875826
       },
       {
         "lemma": "rozumieť",
@@ -552,10 +552,10 @@
         "fr": "c'est pourquoi",
         "example": "Preto som tu.",
         "tip": "Conséquence",
-        "box": 1,
-        "reviews": 2,
+        "box": 2,
+        "reviews": 3,
         "errors": 1,
-        "lastReview": 1773820482026
+        "lastReview": 1773833879109
       },
       {
         "lemma": "teda",
