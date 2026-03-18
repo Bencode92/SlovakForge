@@ -129,10 +129,10 @@
         "conjugation": "ja môžem, ty môžeš, on/ona môže, my môžeme, vy môžete, oni môžu",
         "example": "Môžeme sa stretnúť? = On peut se voir ?",
         "tip": "Capacité / permission",
-        "box": 1,
-        "reviews": 1,
+        "box": 2,
+        "reviews": 2,
         "errors": 0,
-        "lastReview": 1773833789270
+        "lastReview": 1773833914512
       },
       {
         "lemma": "musieť",
@@ -613,10 +613,10 @@
         "fr": "cependant",
         "example": "Však to nie je pravda.",
         "tip": "Plus formel que ale",
-        "box": 0,
-        "reviews": 2,
+        "box": 1,
+        "reviews": 3,
         "errors": 2,
-        "lastReview": 1773820503526
+        "lastReview": 1773833904862
       },
       {
         "lemma": "aj keď",
@@ -1295,7 +1295,11 @@
         "tip": "Incertitude",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "asi",
+        "_correct": "peut-être",
+        "_mode": "plain"
       },
       {
         "lemma": "dobre",
@@ -1584,7 +1588,11 @@
         "tip": "Question clé",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "Kde je...?",
+        "_correct": "Où est... ?",
+        "_mode": "plain"
       },
       {
         "lemma": "Milujem ťa",
