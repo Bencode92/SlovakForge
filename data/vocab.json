@@ -10,10 +10,10 @@
         "past": "bol/bola som, bol/bola si, bol/bola, boli sme, boli ste, boli",
         "example": "Som šťastný. = Je suis heureux.",
         "tip": "Le verbe #1 ! Irrégulier.",
-        "box": 3,
-        "reviews": 3,
+        "box": 4,
+        "reviews": 4,
         "errors": 0,
-        "lastReview": 1773833720643
+        "lastReview": 1773833838212
       },
       {
         "lemma": "mať",
@@ -22,10 +22,10 @@
         "past": "mal/mala som, mal/mala si, mal/mala, mali sme, mali ste, mali",
         "example": "Mám hlad. = J'ai faim.",
         "tip": "mať rád/rada = aimer",
-        "box": 3,
-        "reviews": 3,
+        "box": 4,
+        "reviews": 4,
         "errors": 0,
-        "lastReview": 1773833728725
+        "lastReview": 1773833842347
       },
       {
         "lemma": "chcieť",
@@ -33,10 +33,10 @@
         "conjugation": "ja chcem, ty chceš, on/ona chce, my chceme, vy chcete, oni chcú",
         "example": "Chcem ísť von. = Je veux sortir.",
         "tip": "Modal + infinitif",
-        "box": 1,
-        "reviews": 1,
+        "box": 2,
+        "reviews": 2,
         "errors": 0,
-        "lastReview": 1773820398411
+        "lastReview": 1773833847060
       },
       {
         "lemma": "robiť",
