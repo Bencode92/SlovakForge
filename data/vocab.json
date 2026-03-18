@@ -166,9 +166,10 @@
         "conjugation": "ja dám, ty dáš, on/ona dá, my dáme, vy dáte, oni dajú",
         "example": "Daj mi vodu. = Donne-moi de l'eau.",
         "tip": "Impératif: daj!",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833800533
       },
       {
         "lemma": "vidieť",
@@ -176,9 +177,10 @@
         "conjugation": "ja vidím, ty vidíš, on/ona vidí, my vidíme, vy vidíte, oni vidia",
         "example": "Vidíš to? = Tu vois ça ?",
         "tip": "vidieť sa = se voir",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833805922
       },
       {
         "lemma": "pracovať",
@@ -186,9 +188,10 @@
         "conjugation": "ja pracujem, ty pracuješ, on/ona pracuje, my pracujeme, vy pracujete, oni pracujú",
         "example": "Kde pracuješ? = Où travailles-tu ?",
         "tip": "práca = travail",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833814551
       },
       {
         "lemma": "bývať",
