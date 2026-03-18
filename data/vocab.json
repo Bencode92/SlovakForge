@@ -11,9 +11,9 @@
         "example": "Som šťastný. = Je suis heureux.",
         "tip": "Le verbe #1 ! Irrégulier.",
         "box": 5,
-        "reviews": 5,
+        "reviews": 6,
         "errors": 0,
-        "lastReview": 1773833982958
+        "lastReview": 1773834148713
       },
       {
         "lemma": "mať",
@@ -70,14 +70,14 @@
         "conjugation": "ja rozumiem, ty rozumieš, on/ona rozumie, my rozumieme, vy rozumiete, oni rozumejú",
         "example": "Nerozumiem. = Je ne comprends pas.",
         "tip": "Phrase de survie #1",
-        "box": 3,
-        "reviews": 3,
+        "box": 4,
+        "reviews": 4,
         "errors": 0,
         "_dir": "sk",
         "_prompt": "rozumieť",
         "_correct": "comprendre",
         "_mode": "plain",
-        "lastReview": 1773834044118
+        "lastReview": 1773834044800
       },
       {
         "lemma": "milovať",
