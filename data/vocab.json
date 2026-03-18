@@ -44,14 +44,14 @@
         "conjugation": "ja robím, ty robíš, on/ona robí, my robíme, vy robíte, oni robia",
         "example": "Čo robíš? = Tu fais quoi ?",
         "tip": "Question #1",
-        "box": 1,
-        "reviews": 2,
-        "errors": 1,
+        "box": 0,
+        "reviews": 3,
+        "errors": 2,
         "_dir": "fr",
         "_prompt": "faire",
         "_correct": "robiť",
         "_mode": "plain",
-        "lastReview": 1773833852858
+        "lastReview": 1773833900813
       },
       {
         "lemma": "hovoriť",
@@ -335,9 +335,10 @@
         "plural": "vody",
         "example": "Daj mi vodu.",
         "tip": "Accusatif: vodu",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773833881092
       },
       {
         "lemma": "pivo",
@@ -562,10 +563,10 @@
         "fr": "donc",
         "example": "Teda čo robíme?",
         "tip": "Conclusion",
-        "box": 1,
-        "reviews": 1,
+        "box": 2,
+        "reviews": 2,
         "errors": 0,
-        "lastReview": 1773820484975
+        "lastReview": 1773833894444
       },
       {
         "lemma": "tak",
@@ -770,7 +771,11 @@
         "tip": "Bratislava Staré Mesto !",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "vieux",
+        "_correct": "starý",
+        "_mode": "plain"
       },
       {
         "lemma": "mladý",
@@ -947,7 +952,11 @@
         "tip": "Démonstratif neutre",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "fr",
+        "_prompt": "c'est / ça",
+        "_correct": "to",
+        "_mode": "plain"
       },
       {
         "lemma": "my",
@@ -1562,7 +1571,11 @@
         "tip": "",
         "box": 0,
         "reviews": 0,
-        "errors": 0
+        "errors": 0,
+        "_dir": "sk",
+        "_prompt": "Hovorte pomalšie",
+        "_correct": "Parlez plus lentement",
+        "_mode": "plain"
       },
       {
         "lemma": "Kde je...?",
