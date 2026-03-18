@@ -59,10 +59,10 @@
         "conjugation": "ja hovorím, ty hovoríš, on/ona hovorí, my hovoríme, vy hovoríte, oni hovoria",
         "example": "Hovoríš po slovensky?",
         "tip": "hovoriť po + langue",
-        "box": 1,
-        "reviews": 3,
+        "box": 2,
+        "reviews": 4,
         "errors": 2,
-        "lastReview": 1773833875826
+        "lastReview": 1773834040316
       },
       {
         "lemma": "rozumieť",
@@ -70,14 +70,14 @@
         "conjugation": "ja rozumiem, ty rozumieš, on/ona rozumie, my rozumieme, vy rozumiete, oni rozumejú",
         "example": "Nerozumiem. = Je ne comprends pas.",
         "tip": "Phrase de survie #1",
-        "box": 2,
-        "reviews": 2,
+        "box": 3,
+        "reviews": 3,
         "errors": 0,
         "_dir": "sk",
         "_prompt": "rozumieť",
         "_correct": "comprendre",
         "_mode": "plain",
-        "lastReview": 1773833917362
+        "lastReview": 1773834044118
       },
       {
         "lemma": "milovať",
