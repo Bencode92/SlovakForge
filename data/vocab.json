@@ -22,10 +22,10 @@
         "past": "mal/mala som, mal/mala si, mal/mala, mali sme, mali ste, mali",
         "example": "Mám hlad. = J'ai faim.",
         "tip": "mať rád/rada = aimer",
-        "box": 1,
-        "reviews": 1,
+        "box": 3,
+        "reviews": 3,
         "errors": 0,
-        "lastReview": 1773820390263
+        "lastReview": 1773833728725
       },
       {
         "lemma": "chcieť",
@@ -45,12 +45,13 @@
         "example": "Čo robíš? = Tu fais quoi ?",
         "tip": "Question #1",
         "box": 0,
-        "reviews": 0,
-        "errors": 0,
+        "reviews": 1,
+        "errors": 1,
         "_dir": "fr",
         "_prompt": "faire",
         "_correct": "robiť",
-        "_mode": "plain"
+        "_mode": "plain",
+        "lastReview": 1773833736326
       },
       {
         "lemma": "hovoriť",
@@ -59,8 +60,9 @@
         "example": "Hovoríš po slovensky?",
         "tip": "hovoriť po + langue",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833739394
       },
       {
         "lemma": "rozumieť",
