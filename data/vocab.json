@@ -141,12 +141,13 @@
         "example": "Musím ísť. = Je dois y aller.",
         "tip": "Obligation forte",
         "box": 0,
-        "reviews": 0,
-        "errors": 0,
+        "reviews": 1,
+        "errors": 1,
         "_dir": "sk",
         "_prompt": "musieť",
         "_correct": "devoir",
-        "_mode": "plain"
+        "_mode": "plain",
+        "lastReview": 1773833791867
       },
       {
         "lemma": "prísť",
@@ -155,8 +156,9 @@
         "example": "Kedy prídeš? = Quand viens-tu ?",
         "tip": "Perfectif de ísť",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773833794700
       },
       {
         "lemma": "dať",
