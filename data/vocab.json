@@ -513,73 +513,80 @@
         "fr": "mais",
         "example": "Chcem, ale nemôžem.",
         "tip": "Opposition",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820462826
       },
       {
         "lemma": "alebo",
         "fr": "ou",
         "example": "Kávu alebo čaj?",
         "tip": "Choix",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820471125
       },
       {
         "lemma": "pretože",
         "fr": "parce que",
         "example": "Nejdem, pretože som chorý.",
         "tip": "Cause",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820477045
       },
       {
         "lemma": "preto",
         "fr": "c'est pourquoi",
         "example": "Preto som tu.",
         "tip": "Conséquence",
-        "box": 0,
-        "reviews": 1,
+        "box": 1,
+        "reviews": 2,
         "errors": 1,
-        "lastReview": 1773820353394
+        "lastReview": 1773820482026
       },
       {
         "lemma": "teda",
         "fr": "donc",
         "example": "Teda čo robíme?",
         "tip": "Conclusion",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820484975
       },
       {
         "lemma": "tak",
         "fr": "alors",
         "example": "Tak poď!",
         "tip": "Très oral",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820488794
       },
       {
         "lemma": "ak",
         "fr": "si",
         "example": "Ak chceš, poď.",
         "tip": "Condition",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820491542
       },
       {
         "lemma": "keď",
         "fr": "quand",
         "example": "Keď prídeš, zavolaj.",
         "tip": "Temps + condition",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820495694
       },
       {
         "lemma": "keby",
@@ -587,8 +594,9 @@
         "example": "Keby som vedel...",
         "tip": "Irréel",
         "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "reviews": 1,
+        "errors": 1,
+        "lastReview": 1773820499228
       },
       {
         "lemma": "však",
@@ -596,9 +604,9 @@
         "example": "Však to nie je pravda.",
         "tip": "Plus formel que ale",
         "box": 0,
-        "reviews": 1,
-        "errors": 1,
-        "lastReview": 1773820339879
+        "reviews": 2,
+        "errors": 2,
+        "lastReview": 1773820503526
       },
       {
         "lemma": "aj keď",
@@ -1323,18 +1331,20 @@
         "fr": "un/une",
         "example": "Jeden čaj, prosím.",
         "tip": "M/F/N",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820516257
       },
       {
         "lemma": "dva/dve",
         "fr": "deux",
         "example": "Dve pivá, prosím.",
         "tip": "dva (M), dve (F/N)",
-        "box": 0,
-        "reviews": 0,
-        "errors": 0
+        "box": 1,
+        "reviews": 1,
+        "errors": 0,
+        "lastReview": 1773820518909
       },
       {
         "lemma": "tri",
