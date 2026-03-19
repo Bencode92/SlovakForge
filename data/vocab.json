@@ -1306,6 +1306,23 @@
         "box": 0,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "konečne",
+        "lemma": "konečne",
+        "type": "adverb",
+        "fr": "enfin, finalement",
+        "gender": null,
+        "plural": null,
+        "conjugation": null,
+        "example": "Konečne sme sa dostali na chalupu = Nous sommes enfin arrivés au chalet",
+        "tip": "'konec' = fin, donc 'konečne' = finalement",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1773903985852,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "number": [
