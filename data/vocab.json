@@ -393,6 +393,40 @@
         "addedAt": 1774335177643,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Voyager",
+        "lemma": "cestovať",
+        "type": "verb",
+        "fr": "Voyager",
+        "gender": null,
+        "plural": null,
+        "conjugation": "cestujem, cestuješ, cestuje, cestujeme, cestujete, cestujú",
+        "example": "Rád cestujem po Európe = J'aime voyager en Europe",
+        "tip": "Verbe régulier du 1er groupe en slovaque",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335193481,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Sentir",
+        "lemma": "cítiť",
+        "type": "verb",
+        "fr": "sentir",
+        "gender": null,
+        "plural": null,
+        "conjugation": "cítim, cítiš, cíti, cítime, cítite, cítia",
+        "example": "Cítim vôňu kvetov = Je sens l'odeur des fleurs",
+        "tip": "Se conjugue comme les verbes en -iť",
+        "grammar_note": "Peut signifier sentir physiquement ou émotionnellement",
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335297617,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "noun": [
