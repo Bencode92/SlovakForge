@@ -359,6 +359,40 @@
         "addedAt": 1774335113795,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Commander",
+        "lemma": "objednať",
+        "type": "verb",
+        "fr": "Commander",
+        "gender": null,
+        "plural": null,
+        "conjugation": "objednávam",
+        "example": "Objednávam si pizzu = Je commande une pizza",
+        "tip": "Se conjugue comme un verbe régulier en -ať",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335121962,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Cuisiner",
+        "lemma": "variť",
+        "type": "verb",
+        "fr": "cuisiner",
+        "gender": null,
+        "plural": null,
+        "conjugation": "varím, varíš, varí, varíme, varíte, varia",
+        "example": "Rád varím = J'aime cuisiner",
+        "tip": "Le verbe 'variť' peut aussi signifier 'bouillir' ou 'cuire'",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335177643,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "noun": [
