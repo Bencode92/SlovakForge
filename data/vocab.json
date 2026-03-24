@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "lastUpdated": "2026-03-19",
+  "lastUpdated": "2026-03-24",
   "words": {
     "verb": [
       {
@@ -272,6 +272,23 @@
         "box": 0,
         "lastReview": null,
         "addedAt": 1773903855623,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Acheter",
+        "lemma": "kúpiť",
+        "type": "verb",
+        "fr": "acheter",
+        "gender": null,
+        "plural": null,
+        "conjugation": "kúpim, kúpiš, kúpi, kúpime, kúpite, kúpia",
+        "example": "Kúpim si auto = J'achète une voiture",
+        "tip": "Verbe perfectif, pour l'aspect imperfectif utilisez 'kupovať'",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774334949428,
         "reviews": 0,
         "errors": 0
       }
