@@ -865,6 +865,23 @@
         "box": 0,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Comme",
+        "lemma": "ako",
+        "type": "conjunction",
+        "fr": "comme",
+        "gender": null,
+        "plural": null,
+        "conjugation": null,
+        "example": "Ako si? = Comment vas-tu?",
+        "tip": "Conjonction de comparaison très fréquente",
+        "grammar_note": "Peut aussi signifier 'comment' dans certains contextes interrogatifs",
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335818656,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "adjective": [
