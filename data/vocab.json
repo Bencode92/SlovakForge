@@ -427,6 +427,40 @@
         "addedAt": 1774335297617,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Courir",
+        "lemma": "bežať",
+        "type": "verb",
+        "fr": "Courir",
+        "gender": null,
+        "plural": null,
+        "conjugation": "bežím, bežíš, beží, bežíme, bežíte, bežia",
+        "example": "Rád bežím v parku = J'aime courir dans le parc",
+        "tip": "Verbe de mouvement important, attention à la conjugaison irrégulière",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335306425,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Penser",
+        "lemma": "myslieť",
+        "type": "verb",
+        "fr": "penser",
+        "gender": null,
+        "plural": null,
+        "conjugation": "myslím, myslíš, myslí, myslíme, myslíte, myslia",
+        "example": "Myslím na teba = Je pense à toi",
+        "tip": "Se conjugue comme les verbes en -ieť du 4e groupe",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335355689,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "noun": [
