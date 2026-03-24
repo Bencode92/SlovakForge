@@ -325,6 +325,40 @@
         "addedAt": 1774335036604,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Finir",
+        "lemma": "skončiť",
+        "type": "verb",
+        "fr": "finir",
+        "gender": null,
+        "plural": null,
+        "conjugation": "skončím, skončíš, skončí, skončíme, skončíte, skončia",
+        "example": "Skončím prácu o piatej = Je finis le travail à cinq heures",
+        "tip": "Verbe perfectif, pour l'aspect imperfectif utiliser 'končiť'",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335045888,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Conduire",
+        "lemma": "viesť",
+        "type": "verb",
+        "fr": "Conduire",
+        "gender": null,
+        "plural": null,
+        "conjugation": "vedem, vedeš, vedie, vedieme, vediete, vedú",
+        "example": "Vedem auto = Je conduis une voiture",
+        "tip": "Peut aussi signifier 'mener' ou 'diriger' selon le contexte",
+        "grammar_note": "Verbe irrégulier, conjugaison similaire à 'ísť' (aller)",
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335113795,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "noun": [
