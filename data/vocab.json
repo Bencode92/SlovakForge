@@ -291,6 +291,40 @@
         "addedAt": 1774334949428,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Mettre",
+        "lemma": "klásť",
+        "type": "verb",
+        "fr": "mettre",
+        "gender": null,
+        "plural": null,
+        "conjugation": "kladiem, kladieš, kladie, kladieme, kladiete, kladú",
+        "example": "Kladiem knihu na stôl = Je mets le livre sur la table",
+        "tip": "Verbe irrégulier avec alternance de radical klá-/klad-",
+        "grammar_note": "Verbe imperfectif, le perfectif est 'položiť' pour l'action ponctuelle",
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774334977486,
+        "reviews": 0,
+        "errors": 0
+      },
+      {
+        "original": "Regarder",
+        "lemma": "pozerať",
+        "type": "verb",
+        "fr": "regarder",
+        "gender": null,
+        "plural": null,
+        "conjugation": "pozerám, pozeráš, pozerá, pozeráme, pozeráte, pozerajú",
+        "example": "pozerám televíziu = je regarde la télévision",
+        "tip": "Se conjugue comme un verbe régulier en -ať",
+        "grammar_note": null,
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335036604,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "noun": [
