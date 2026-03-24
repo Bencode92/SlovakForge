@@ -1356,6 +1356,23 @@
         "box": 0,
         "reviews": 0,
         "errors": 0
+      },
+      {
+        "original": "Avec",
+        "lemma": "s",
+        "type": "preposition",
+        "fr": "avec",
+        "gender": null,
+        "plural": null,
+        "conjugation": null,
+        "example": "s tebou = avec toi",
+        "tip": "La préposition 's' s'utilise avec l'instrumental en slovaque",
+        "grammar_note": "Régit l'instrumental",
+        "box": 0,
+        "lastReview": null,
+        "addedAt": 1774335464083,
+        "reviews": 0,
+        "errors": 0
       }
     ],
     "adverb": [
